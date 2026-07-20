@@ -77,15 +77,15 @@ body {
   padding: 6px 12px;
   font-size: 13px;
   font-weight: 600;
-  border: 1px solid #2b7fe8;
+  border: 1px solid #8b8bff;
   border-radius: 6px;
-  background: #2b7fe8;
+  background: #8b8bff;
   color: #fff;
   cursor: pointer;
   font-family: inherit;
   white-space: nowrap;
 }
-.filter-export:hover { background: #1a6ad4; }
+.filter-export:hover { background: #6a6ad4; }
 
 /* ── テーブルコンテナ（横スクロール） ── */
 .tbl-scroll {
@@ -242,9 +242,9 @@ body {
 }
 .pag-btn:hover:not(:disabled) { background: #ebf2ff; }
 .pag-btn[aria-current="page"] {
-  background: #7b7bff;
+  background: #8b8bff;
   color: #fff;
-  border-color: #7b7bff;
+  border-color: #8b8bff;
 }
 .pag-btn:disabled {
   opacity: 0.4;
