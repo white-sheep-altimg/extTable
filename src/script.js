@@ -10,6 +10,41 @@
   var PAGE_SIZE = 5;          // 1ページあたりの件数（変更可能）
   var STATUS_OPTS = ['在籍', '休職', '退職'];
 
+  // ── localStorageキー ──
+  var STORAGE_KEY = 'extTable_data';
+
+  // ── データ保存（localStorage） ──
+  function saveData() {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({
+        columns: columns,
+        rows: allRows
+      }));
+    } catch (e) {
+      console.warn('データの保存に失敗しました:', e);
+    }
+  }
+
+  // ── 編集後のデータをJSONファイルとしてダウンロード ──
+  function exportJSON() {
+    var data = JSON.stringify({ columns: columns, rows: allRows }, null, 2);
+    var blob = new Blob([data], { type: 'application/json' });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    var now = new Date();
+    var ts = now.getFullYear()
+      + String(now.getMonth() + 1).padStart(2, '0')
+      + String(now.getDate()).padStart(2, '0')
+      + '-' + String(now.getHours()).padStart(2, '0')
+      + String(now.getMinutes()).padStart(2, '0');
+    a.href = url;
+    a.download = 'data_' + ts + '.json';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }
+
   // ── 現在ページ ──
   var currentPage = 1;
 
@@ -34,23 +69,31 @@
     pagBtns = document.getElementById('js-pag-btns');
     emptyMsg = document.getElementById('js-empty-msg');
 
-    loadJSON();
+    loadJSON('./data/data.json');
   }
 
   // ── JSONファイル取得 ──
-  function loadJSON() {
-    fetch('./data/data.json')
+  function loadJSON(jsonfile) {
+    fetch(jsonfile)
       .then(function (res) {
         if (!res.ok) { throw new Error('HTTP ' + res.status); }
         return res.json();
       })
       .then(function (data) {
-        allRows = data.rows.slice();          // 全件保持（コピー）
+        // localStorageに保存済みのデータがある場合はそれを優先（編集後のデータが優先）
+        var saved = null;
+        try { saved = JSON.parse(localStorage.getItem(STORAGE_KEY)); } catch (e) { /* ignore */ }
+        if (saved && saved.rows && saved.rows.length > 0) {
+          allRows = saved.rows.slice();
+          columns = saved.columns;
+        } else {
+          allRows = data.rows.slice();
+          columns = data.columns;
+        }
         filteredRows = allRows.slice();        // 最初は全件
-        renderHeader(data.columns);            // ヘッダー描画（columnsは初回のみ）
-        populateDeptFilter(data.rows);         // 部署ドロップダウン自動生成
+        populateDeptFilter(allRows);           // 部署ドロップダウン自動生成
         currentPage = 1;                       // ページリセット
-        render();                               // 初回描画
+        render();                              // 初回描画
       })
       .catch(function (err) {
         console.error('データ読み込みエラー:', err);
@@ -379,6 +422,14 @@
       render();
     });
 
+    // JSONエクスポートボタン
+    var exportBtn = document.getElementById('js-export-btn');
+    if (exportBtn) {
+      exportBtn.addEventListener('click', function () {
+        exportJSON();
+      });
+    }
+
     // セルクリック → インライン編集
     wrap.addEventListener('click', function (e) {
       var td = e.target.closest('td.tbl-cell-editable');
@@ -432,6 +483,7 @@
       if (committed) { return; }
       committed = true;
       row[col.key] = input.value;
+      saveData();  // 編集後にlocalStorageへ自動保存
       td.classList.remove('is-editing');
       renderCell(td, row, col);
     }
