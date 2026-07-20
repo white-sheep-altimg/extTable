@@ -1,0 +1,27 @@
+{
+  "columns": [
+    { "key": "id",         "label": "ID",   "width": "56px",  "editable": false },
+    { "key": "name",       "label": "氏名", "width": "130px", "editable": true  },
+    { "key": "department", "label": "部署", "width": "120px", "editable": true  },
+    { "key": "role",       "label": "役職", "width": "160px", "editable": true  },
+    { "key": "email",      "label": "メール", "width": "200px", "editable": true },
+    { "key": "status",     "label": "状態", "width": "80px",  "editable": true, "type": "select" }
+  ],
+  "rows": [
+    { "id": 1,  "name": "田中 一郎",   "department": "開発部",       "role": "リードエンジニア",     "email": "tanaka@example.com",  "status": "在籍" },
+    { "id": 2,  "name": "鈴木 花子",   "department": "デザイン部",   "role": "UIデザイナー",         "email": "suzuki@example.com",  "status": "在籍" },
+    { "id": 3,  "name": "佐藤 次郎",   "department": "開発部",       "role": "バックエンドエンジニア", "email": "sato@example.com",    "status": "在籍" },
+    { "id": 4,  "name": "山田 三枝",   "department": "営業部",       "role": "セールスマネージャー",   "email": "yamada@example.com",  "status": "在籍" },
+    { "id": 5,  "name": "伊藤 健太",   "department": "開発部",       "role": "エンジニア",           "email": "ito@example.com",     "status": "休職" },
+    { "id": 6,  "name": "渡辺 美咲",   "department": "マーケティング部", "role": "コンテンツディレクター", "email": "watanabe@example.com", "status": "在籍" },
+    { "id": 7,  "name": "高橋 大輔",   "department": "開発部",       "role": "フロントエンドエンジニア", "email": "takahashi@example.com", "status": "在籍" },
+    { "id": 8,  "name": "中村 まろん", "department": "デザイン部",   "role": "グラフィックデザイナー", "email": "nakamura@example.com",  "status": "在籍" },
+    { "id": 9,  "name": "小林 たかし", "department": "営業部",       "role": "営業担当",             "email": "kobayashi@example.com", "status": "退職" },
+    { "id": 10, "name": "加藤 ゆき",   "department": "マーケティング部", "role": "SEOアナリスト",       "email": "kato@example.com",      "status": "在籍" },
+    { "id": 11, "name": "吉村 豪",     "department": "開発部",       "role": "DevOpsエンジニア",     "email": "yoshimura@example.com", "status": "在籍" },
+    { "id": 12, "name": "松本 あかり", "department": "人事部",       "role": "人事マネージャー",     "email": "matsumoto@example.com", "status": "在籍" },
+    { "id": 13, "name": "木村 隼人",   "department": "開発部",       "role": "エンジニア",           "email": "kimura@example.com",    "status": "休職" },
+    { "id": 14, "name": "井上 彩",     "department": "デザイン部",   "role": "UXリサーチャー",       "email": "inoue@example.com",     "status": "在籍" },
+    { "id": 15, "name": "清水 拓也",   "department": "営業部",       "role": "営業部長",             "email": "shimizu@example.com",   "status": "在籍" }
+  ]
+}
