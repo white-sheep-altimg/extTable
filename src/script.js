@@ -27,7 +27,13 @@
 
   // ── 編集後のデータをJSONファイルとしてダウンロード ──
   function exportJSON() {
-    var data = JSON.stringify({ columns: columns, rows: allRows }, null, 2);
+    // 既存のデータとコメントデータを統合してエクスポート
+    var exportData = {
+        columns: columns,
+        rows: allRows,
+        comments: JSON.parse(CommentManager.getCommentsAsJSON()) // コメントデータも追加
+    };
+    var data = JSON.stringify(exportData, null, 2);
     var blob = new Blob([data], { type: 'application/json' });
     var url = URL.createObjectURL(blob);
     var a = document.createElement('a');
@@ -70,6 +76,13 @@
     emptyMsg = document.getElementById('js-empty-msg');
 
     loadJSON('./data/data.json');
+
+    // CommentManager を初期化
+    // コメント対象のルート要素はテーブル全体をラップしている `js-wrap`
+    CommentManager.init(document.getElementById('js-wrap'));
+
+    // コメントのダウンロード・アップロードボタンを追加
+    addCommentIOButtons();
   }
 
   // ── JSONファイル取得 ──
@@ -86,6 +99,10 @@
         if (saved && saved.rows && saved.rows.length > 0) {
           allRows = saved.rows.slice();
           columns = saved.columns;
+          // 保存データにコメントが含まれていればロード
+          if (saved.comments) {
+              CommentManager.loadCommentsFromJSON(JSON.stringify(saved.comments));
+          }
         } else {
           allRows = data.rows.slice();
           columns = data.columns;
@@ -255,17 +272,27 @@
     for (var i = start; i < end; i++) {
       var row = filteredRows[i];
       var tr = document.createElement('tr');
-      var globalIdx = i;  // filteredRows内のインデックス
+      // var globalIdx = i;  // filteredRows内のインデックス
       columns.forEach(function (col) {
         var td = document.createElement('td');
         if (col.editable) {
           td.className = 'tbl-cell-editable';
           td.setAttribute('title', 'クリックして編集');
-          td.setAttribute('data-idx', globalIdx);
+          td.setAttribute('data-idx', i); // filteredRows内のインデックス
           td.setAttribute('data-col', col.key);
         } else {
           td.className = 'tbl-cell-readonly';
         }
+        // コメント管理用に data-comment-id を付与
+        // row.id はユニークな行IDを想定 (JSONデータにidフィールドがあることを前提)
+        var commentId = 'table-cell-' + row.id + '-' + col.key;
+        td.setAttribute('data-comment-id', commentId);
+
+        // コメントが存在すれば data-has-comment 属性を付与
+        if (CommentManager.getComment(commentId)) {
+          td.setAttribute('data-has-comment', 'true');
+        }
+
         renderCell(td, row, col);
         tr.appendChild(td);
       });
@@ -508,15 +535,81 @@
     input.addEventListener('blur', confirmEdit);
   }
 
+  // コメントのダウンロード・アップロードボタンを追加する関数
+  function addCommentIOButtons() {
+    const filterBar = document.getElementById('js-filter-bar');
+    if (!filterBar) return;
+
+    // コメントエクスポートボタン
+    const exportCommentsBtn = document.createElement('button');
+    exportCommentsBtn.className = 'filter-export';
+    exportCommentsBtn.id = 'js-export-comments-btn';
+    exportCommentsBtn.textContent = '📥 コメントエクスポート';
+    exportCommentsBtn.title = 'コメントデータをJSONファイルとしてダウンロード';
+    exportCommentsBtn.addEventListener('click', () => {
+      const commentData = CommentManager.getCommentsAsJSON();
+      const blob = new Blob([commentData], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      const now = new Date();
+      const ts = now.getFullYear()
+        + String(now.getMonth() + 1).padStart(2, '0')
+        + String(now.getDate()).padStart(2, '0')
+        + '-' + String(now.getHours()).padStart(2, '0')
+        + String(now.getMinutes()).padStart(2, '0');
+      a.href = url;
+      a.download = 'comments_' + ts + '.json';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    });
+    filterBar.appendChild(exportCommentsBtn);
+
+    // コメントインポートボタン
+    const importCommentsBtn = document.createElement('button');
+    importCommentsBtn.className = 'filter-export';
+    importCommentsBtn.id = 'js-import-comments-btn';
+    importCommentsBtn.textContent = '⬆ コメントインポート';
+    importCommentsBtn.title = 'コメントデータをJSONファイルから読み込む';
+    importCommentsBtn.addEventListener('click', () => {
+      const input = document.createElement('input');
+      input.type = 'file';
+      input.accept = 'application/json';
+      input.onchange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = (event) => {
+            try {
+              const jsonString = event.target.result;
+              CommentManager.loadCommentsFromJSON(jsonString);
+              // コメントがロードされたら、テーブルを再描画してdata-has-comment属性を反映させる
+              render();
+            } catch (error) {
+              console.error('コメントJSONファイルの読み込みエラー:', error);
+              alert('コメントJSONファイルの読み込みに失敗しました。');
+            }
+          };
+          reader.readAsText(file);
+        }
+      };
+      input.click();
+    });
+    filterBar.appendChild(importCommentsBtn);
+  }
+
   // ── 初期化実行 ──
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', function () {
       init();
       bindEvents();
+      // CommentManager は init() で初期化される
     });
   } else {
     init();
     bindEvents();
+    // CommentManager は init() で初期化される
   }
 
 })();

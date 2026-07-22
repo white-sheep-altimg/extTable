@@ -12,17 +12,19 @@ JSONデータを取得してHTMLテーブルにレンダリングする、サー
 | グローバル検索 | テキスト入力ですべてのカラムを対象に部分一致検索（日本語対応） |
 | ソート | ヘッダクリックで昇順（▲）→ 降順（▼）→ なし をサイクル切替 |
 | 表示件数 | 5, 10, 25, 50 件から選択 |
+| コメント付与 | セルを右クリックしてコメントを追加できる |
 
 ## ファイル構成
 
 ```
 src/
-├── index.html     # メインHTML
-├── style.css      # スタイル定義
-├── script.js      # 全ロジック（バニラJavaScript）
-├── README.md      # このファイル
+├── index.html         # メインHTML
+├── style.css          # スタイル定義
+├── script.js          # 全ロジック（vanilla JavaScript）
+├── comment-manager.js # コメント付与ロジック（vanilla JavaScript)
+├── README.md          # このファイル
 └── data/
-    └── data.json  # 列定義と社員データ
+    └── data.json      # 列定義と社員データ
 ```
 
 ## 使い方
@@ -36,7 +38,7 @@ src/
 
 ## 技術仕様
 
-- **スタック**: HTML / CSS / バニラJavaScript（外部ライブラリなし）
+- **スタック**: HTML / CSS / vanilla JavaScript（外部ライブラリなし）
 - **データ形式**: JSON（columns配列 + rows配列）
 - **データ管理**: `allRows`（全件）と `filteredRows`（フィルター後）を分離、メモリ保持
 - **レスポンシブ**: テーブルは横スクロール対応
