@@ -1,0 +1,373 @@
+/* ── リセット＆基本 ── */
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Hiragino Kaku Gothic ProN',
+    'Noto Sans JP', sans-serif;
+  margin: 0;
+  padding: 24px 16px 48px;
+  background: #f4f6f9;
+  color: #1a2332;
+}
+
+/* ── ヘッダー ── */
+.page-header {
+  max-width: 1100px;
+  margin: 0 auto 16px;
+}
+.page-title {
+  font-size: 22px;
+  font-weight: 700;
+  margin: 0;
+}
+
+/* ── フィルターバー ── */
+.filter-bar {
+  max-width: 1100px;
+  margin: 0 auto 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.filter-label {
+  font-size: 13px;
+  font-weight: 600;
+}
+.filter-select {
+  padding: 6px 12px;
+  font-size: 13px;
+  border: 1px solid #c5cdd5;
+  border-radius: 6px;
+  background: #fff;
+  cursor: pointer;
+  font-family: inherit;
+}
+.filter-search {
+  flex: 1;
+  min-width: 120px;
+  padding: 6px 12px;
+  font-size: 13px;
+  border: 1px solid #c5cdd5;
+  border-radius: 6px;
+  background: #fff;
+  font-family: inherit;
+}
+.filter-search:focus {
+  outline: none;
+  border-color: #ccccff;
+  box-shadow: 0 0 0 2px #ccffcc;
+}
+.filter-pagesize {
+  padding: 6px 12px;
+  font-size: 13px;
+  border: 1px solid #c5cdd5;
+  border-radius: 6px;
+  background: #fff;
+  font-family: inherit;
+  width: 60px;
+}
+.filter-pagesize:focus {
+  outline: none;
+  border-color: #ccccff;
+  box-shadow: 0 0 0 2px #ccffcc;
+}
+
+/* エクスポートボタン */
+.filter-export {
+  padding: 6px 12px;
+  font-size: 13px;
+  font-weight: 600;
+  border: 1px solid #8b8bff;
+  border-radius: 6px;
+  background: #8b8bff;
+  color: #fff;
+  cursor: pointer;
+  font-family: inherit;
+  white-space: nowrap;
+}
+.filter-export:hover { background: #6a6ad4; }
+
+/* ── テーブルコンテナ（横スクロール） ── */
+.tbl-scroll {
+  max-width: 1100px;
+  margin: 0 auto;
+  overflow-x: auto;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.07);
+}
+
+/* ── テーブル ── */
+.tbl {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 14px;
+  table-layout: fixed;
+}
+.tbl th {
+  background: #ccffcc;
+  color: #000000;
+  padding: 10px 12px;
+  text-align: left;
+  font-weight: 600;
+  white-space: nowrap;
+  border-left: 1px solid #e5e9f2;
+}
+
+/* ソート対象ヘッダ */
+.tbl th[data-sortable] { cursor: pointer; }
+.tbl th[data-sortable]:hover { background: #ffcccc; }
+
+/* 現在ソート中のヘッダ */
+.tbl th[aria-sort="ascending"],
+.tbl th[aria-sort="descending"] {
+  background: #ccccff;
+}
+
+/* ソートインジケーター */
+.tbl-sort-icon {
+  margin-left: 5px;
+  font-size: 11px;
+  opacity: 0.9;
+}
+.tbl td {
+  padding: 8px 12px;
+  border-bottom: 2px solid #e5e9f2;
+  border-left: 1px solid #e5e9f2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.tbl tbody tr:last-child td { border-bottom: none; }
+.tbl tbody tr:nth-child(even) td { background: #f4f7ff; }
+
+/* ヘッダー編集マーク */
+.tbl-edit-hint {
+  margin-left: 5px;
+  font-size: 11px;
+  opacity: 0.7;
+}
+
+/* 読み取り専用セル */
+.tbl-cell-readonly {
+  color: #9aa5b4;
+  cursor: default;
+}
+
+/* 編集可能セル */
+.tbl-cell-editable { cursor: pointer; }
+.tbl-cell-editable:hover { background: #ebf2ff !important; }
+
+/* ── コメント付きセルのインジケーター（CSS :has() 用） ── */
+.tbl-comment-indicator {
+  display: none;
+}
+
+/* コメントがある編集可能セル — バックグラウンドを強調 */
+.tbl td[data-col]:has(.tbl-comment-indicator) {
+  background: #fff9e6 !important;
+}
+
+/* 偶数行のストライプとの兼ね合い — コメントセルは黄色を優先 */
+.tbl td[data-col]:has(.tbl-comment-indicator):nth-child(even) {
+  background: #fff9e6 !important;
+}
+
+/* ホバー時も黄色を維持 */
+.tbl td[data-col]:has(.tbl-comment-indicator):hover {
+  background: #fff3cc !important;
+}
+
+/* 吹き出しマーク追加 */
+.tbl td[data-col]:has(.tbl-comment-indicator):after {
+  content: '💬'; /* コメントアイコン */
+  font-size: 14px;
+  opacity: 0.7;
+}
+
+/* 編集中セル */
+.tbl-cell-editable.is-editing {
+  padding: 0;
+  cursor: default;
+  background: #fff !important;
+  box-shadow: inset 0 0 0 2px #ffcccc;
+}
+
+/* 入力要素 */
+.tbl-input,
+.tbl-select {
+  display: block;
+  width: 100%;
+  padding: 8px 12px;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 14px;
+  font-family: inherit;
+  color: #1a2332;
+}
+.tbl-select { cursor: pointer; }
+
+/* 状態バッジ */
+.tbl-status {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 9999px;
+  font-size: 12px;
+  font-weight: 600;
+}
+.tbl-status[data-status="在籍"] { background: #d1fae5; color: #065f46; }
+.tbl-status[data-status="休職"] { background: #fef3c7; color: #92400e; }
+.tbl-status[data-status="退職"] { background: #f3f4f6; color: #6b7280; }
+
+/* 該当なしメッセージ */
+.tbl-empty {
+  text-align: center;
+  padding: 24px;
+  color: #9aa5b4;
+  font-size: 14px;
+  margin: 0;
+}
+
+/* ── ページネーション ── */
+.pagination-bar {
+  max-width: 1100px;
+  margin: 16px auto 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.pag-info {
+  font-size: 13px;
+  color: #5a6a7e;
+  width: 100%;
+  text-align: center;
+  margin-bottom: 4px;
+}
+.pag-btns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  justify-content: center;
+}
+.pag-btn {
+  min-width: 34px;
+  height: 34px;
+  padding: 0 6px;
+  border: 1px solid #c5cdd5;
+  border-radius: 6px;
+  background: #fff;
+  font-size: 13px;
+  cursor: pointer;
+  font-family: inherit;
+  color: #1a2332;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.pag-btn:hover:not(:disabled) { background: #ebf2ff; }
+.pag-btn[aria-current="page"] {
+  background: #8b8bff;
+  color: #fff;
+  border-color: #8b8bff;
+}
+.pag-btn:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+/* ── コメントツールチップ ── */
+.tbl-comment-tooltip {
+  pointer-events: auto;
+  position: fixed;
+  z-index: 999;
+  background: #fffbe6;
+  border: 1px solid #e6c200;
+  border-radius: 8px;
+  padding: 10px 32px 10px 12px;
+  max-width: 320px;
+  min-width: 150px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  font-size: 13px;
+  line-height: 1.5;
+  color: #1a2332;
+
+  white-space: pre-wrap;
+}
+.tbl-comment-body {
+  word-break: break-word;
+}
+.tbl-comment-empty {
+  color: #9aa5b4;
+  font-style: italic;
+}
+.tbl-comment-close {
+  position: absolute;
+  top: 4px;
+  right: 6px;
+  background: none;
+  border: none;
+  font-size: 14px;
+  color: #9aa5b4;
+  cursor: pointer;
+  padding: 2px 4px;
+  line-height: 1;
+}
+.tbl-comment-close:hover {
+  color: #cc0000;
+}
+
+/* ── コメント入力ダイアログ ── */
+.tbl-comment-dialog {
+  background: #fff;
+  border: 1px solid #c5cdd5;
+  border-radius: 10px;
+  padding: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 280px;
+  max-width: 350px;
+}
+.tbl-comment-dialog label {
+  font-size: 13px;
+  font-weight: 600;
+}
+.tbl-comment-textarea {
+  width: 100%;
+  min-height: 60px;
+  padding: 8px 10px;
+  font-size: 13px;
+  font-family: inherit;
+  border: 1px solid #c5cdd5;
+  border-radius: 6px;
+  resize: vertical;
+}
+.tbl-comment-textarea:focus {
+  outline: none;
+  border-color: #8b8bff;
+  box-shadow: 0 0 0 2px #ebf2ff;
+}
+.tbl-comment-btn {
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: inherit;
+  border: 1px solid transparent;
+}
+.tbl-comment-btn-ok {
+  background: #8b8bff;
+  color: #fff;
+}
+.tbl-comment-btn-ok:hover { background: #6a6ad4; }
+.tbl-comment-btn-cancel {
+  background: #fff;
+  color: #5a6a7e;
+  border-color: #c5cdd5;
+}
+.tbl-comment-btn-cancel:hover { background: #f4f6f9; }

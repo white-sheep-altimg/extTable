@@ -27,6 +27,17 @@ src/
     └── data.json      # 列定義と社員データ
 ```
 
+### 別実装
+```
+src2/
+├── index.html         # メインHTML
+├── style.css          # スタイル定義
+├── script.js          # 全ロジック（vanilla JavaScript）
+├── README.md          # このファイル
+└── data/
+    └── data.json      # 列定義と社員データ
+```
+
 ## 使い方
 
 1. ローカルサーバーで `src/` ディレクトリを提供する
