@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>タスク一覧サンプル</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+
+<header class="page-header">
+  <h1 class="page-title">タスク一覧</h1>
+</header>
+
+<!-- フィルターエリア -->
+<div class="filter-bar" id="js-filter-bar">
+  <label class="filter-label" for="js-field-filter">フィールド:</label>
+  <select class="filter-select" id="js-field-filter">
+    <option value="">選択</option>
+  </select>
+  <input class="filter-search" id="js-field-filter-input" type="text" placeholder="値で絞り込み...">
+  <label class="filter-label" for="js-search-input">検索:</label>
+  <input class="filter-search" id="js-search-input" type="text" placeholder="全体から検索...">
+  <label class="filter-label" for="js-pagesize-select">表示件数:</label>
+  <select class="filter-pagesize" id="js-pagesize-select">
+    <option value="5">5</option>
+    <option value="10">10</option>
+    <option value="25" selected>25</option>
+    <option value="50">50</option>
+  </select>
+  <span class="filter-label">件</span>
+  <button class="filter-export" id="js-export-btn" title="編集後のデータをJSONファイルとしてダウンロード">📥 JSONエクスポート</button>
+  <button class="filter-export" id="js-export-comments-btn" title="コメントをJSONファイルとしてダウンロード">💬 コメントエクスポート</button>
+  <button class="filter-export" id="js-import-comments-btn" title="コメントをJSONファイルから読み込み">📤 コメントインポート</button>
+</div>
+
+<!-- テーブルエリア -->
+<div class="tbl-scroll" id="js-wrap">
+  <table class="tbl" id="js-table">
+    <thead><tr id="js-thead-row"></tr></thead>
+    <tbody id="js-tbody"></tbody>
+  </table>
+  <p class="tbl-empty" id="js-empty-msg" hidden>該当するデータがありません。</p>
+</div>
+
+<!-- ページネーション＆情報エリア -->
+<div class="pagination-bar" id="js-pag-bar">
+  <span class="pag-info" id="js-pag-info"></span>
+  <div class="pag-btns" id="js-pag-btns"></div>
+</div>
+
+<script src="./script.js"></script>
+</body>
+</html>

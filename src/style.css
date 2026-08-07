@@ -304,7 +304,9 @@ body {
 /* コメントがある要素のインジケーター */
 [data-has-comment="true"] {
   position: relative;
-  border-right: 5px solid #ccccff;
+  background-color: #eeeeaa !important;
+  /* border: 3px solid #ccccff !important; */
+  /* border-right: 5px solid #ccccff; */
 }
 
 [data-has-comment="true"]::after {

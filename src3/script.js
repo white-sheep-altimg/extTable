@@ -13,6 +13,7 @@
   // ── localStorageキー ──
   var STORAGE_KEY = 'task_data';
 
+  // -- github --
   const GIT_REMOTE_URI = "http://localhost:3000";
   const PROJECT_NAME = "foo";
   const INITIAL_DATAFILE = "data.json";

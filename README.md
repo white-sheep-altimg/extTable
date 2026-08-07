@@ -18,6 +18,7 @@ githubやRedmineなど外部のアプリと連携して利用することを想�
 
 ## ファイル構成
 
+### 社員一覧
 ```
 src/
 ├── index.html         # メインHTML
@@ -29,7 +30,7 @@ src/
     └── data.json      # 列定義と社員データ
 ```
 
-### 別実装
+### 社員一覧 2
 ```
 src2/
 ├── index.html         # メインHTML
@@ -41,6 +42,18 @@ src2/
 ```
 
 ### タスク表サンプル
+```
+src2/
+├── index.html         # メインHTML
+├── style.css          # スタイル定義
+├── script.js          # 全ロジック（vanilla JavaScript）
+├── comment-manager.js # コメント付与ロジック（vanilla JavaScript)
+├── README.md          # このファイル
+└── data/
+    └── task.json      # 列定義とタスクデータ
+```
+
+### タスク表サンプル 2
 ```
 src2/
 ├── index.html         # メインHTML
