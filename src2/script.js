@@ -127,14 +127,19 @@
   // ── グローバル検索 ──
   var globalSearch = '';  // 検索テキスト
 
+  // ── フィールドフィルター ──
+  var fieldFilterKey = '';   // 絞り込み対象フィールドの key
+  var fieldFilterValue = ''; // 絞り込み値
+
   // ── DOMハンドル ──
-  var theadRow, tbody, filterSelect, searchInput, pageSizeSelect, pagInfo, pagBtns, emptyMsg;
+  var theadRow, tbody, fieldFilterSelect, fieldFilterInput, searchInput, pageSizeSelect, pagInfo, pagBtns, emptyMsg;
 
   // ── 初期化 ──
   function init() {
     theadRow = document.getElementById('js-thead-row');
     tbody = document.getElementById('js-tbody');
-    filterSelect = document.getElementById('js-dept-filter');
+    fieldFilterSelect = document.getElementById('js-field-filter');
+    fieldFilterInput = document.getElementById('js-field-filter-input');
     searchInput = document.getElementById('js-search-input');
     pageSizeSelect = document.getElementById('js-pagesize-select');
     pagInfo = document.getElementById('js-pag-info');
@@ -164,7 +169,7 @@
           columns = data.columns;
         }
         filteredRows = allRows.slice();        // 最初は全件
-        populateDeptFilter(allRows);           // 部署ドロップダウン自動生成
+        populateFieldFilter();                   // フィールドフィルター自動生成
         currentPage = 1;                       // ページリセット
         render();                              // 初回描画
       })
@@ -216,46 +221,56 @@
     });
   }
 
-  // ── 部署ドロップダウン自動生成 ──
-  function populateDeptFilter(rows) {
-    // 重複なし部署名を収集
-    var depts = [];
-    var seen = {};
-    for (var i = 0; i < rows.length; i++) {
-      var d = rows[i].department;
-      if (d && !seen[d]) {
-        seen[d] = true;
-        depts.push(d);
-      }
-    }
-    depts.sort();  // 五十音順
+  // ── フィールドフィルター自動生成 ──
+  function populateFieldFilter() {
+    if (!fieldFilterSelect) return;
 
-    depts.forEach(function (dept) {
+    // フィールド選択セレクトをクリア
+    fieldFilterSelect.innerHTML = '<option value="">選択</option>';
+
+    // columns からフィールド名をリスト化（ID列は除外）
+    columns.forEach(function (col) {
+      if (col.key === 'id') return;
       var option = document.createElement('option');
-      option.value = dept;
-      option.textContent = dept;
-      filterSelect.appendChild(option);
+      option.value = col.key;
+      option.textContent = col.label;
+      fieldFilterSelect.appendChild(option);
     });
 
-    // 変更イベント
-    filterSelect.addEventListener('change', function () {
-      sortCol = null;  // フィルター時はソート状態をリセット
+    // フィールド選択変更イベント
+    fieldFilterSelect.addEventListener('change', function () {
+      fieldFilterKey = this.value;
+      fieldFilterValue = '';
+      if (fieldFilterInput) { fieldFilterInput.value = ''; }
+      sortCol = null;
       sortDir = 0;
       currentPage = 1;
       applyFilters();
       render();
     });
+
+    // テキスト入力イベント
+    if (fieldFilterInput) {
+      fieldFilterInput.addEventListener('input', function () {
+        fieldFilterValue = this.value;
+        currentPage = 1;
+        applyFilters();
+        render();
+      });
+    }
   }
 
-  // ── 基本フィルター適用（部署＋検索のAND条件） ──
+  // ── 基本フィルター適用（フィールド＋検索のAND条件） ──
   function applyFilters() {
     var query = globalSearch.toLowerCase();
 
     filteredRows = allRows.filter(function (row) {
-      // 部署フィルター
-      var dept = filterSelect.value;
-      if (dept !== '' && row.department !== dept) {
-        return false;
+      // フィールドフィルター
+      if (fieldFilterKey !== '' && fieldFilterValue !== '') {
+        var val = String(row[fieldFilterKey] != null ? row[fieldFilterKey] : '');
+        if (val.toLowerCase().indexOf(fieldFilterValue.toLowerCase()) === -1) {
+          return false;
+        }
       }
       // 検索フィルター
       if (query !== '') {

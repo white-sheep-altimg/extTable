@@ -1,0 +1,165 @@
+{
+  "columns": [
+    {
+      "key": "id",
+      "label": "ID",
+      "width": "56px",
+      "editable": false
+    },
+    {
+      "key": "project",
+      "label": "プロジェクト",
+      "width": "180px",
+      "editable": true
+    },
+    {
+      "key": "category",
+      "label": "分類",
+      "width": "120px",
+      "editable": true
+    },
+    {
+      "key": "task",
+      "label": "タスク",
+      "width": "240px",
+      "editable": true
+    },
+    {
+      "key": "name",
+      "label": "担当",
+      "width": "100px",
+      "editable": true
+    },
+    {
+      "key": "priority",
+      "label": "優先度",
+      "width": "80px",
+      "editable": true,
+      "type": "select"
+    },
+    {
+      "key": "progress",
+      "label": "進捗",
+      "width": "80px",
+      "editable": true
+    },
+    {
+      "key": "startdate",
+      "label": "開始日",
+      "width": "120px",
+      "editable": true,
+      "type": "cal"
+    },
+    {
+      "key": "duedate",
+      "label": "終了日",
+      "width": "120px",
+      "editable": true,
+      "type": "cal"
+    },
+    {
+      "key": "note",
+      "label": "備考",
+      "width": "200px",
+      "editable": true
+    }
+  ],
+  "rows": [
+    {
+      "id": 1,
+      "project": "サイトリニューアル",
+      "category": "設計",
+      "task": "UI刷新",
+      "name": "佐伯 一郎",
+      "priority": "高",
+      "progress": "20%",
+      "startdate": "2026/07/10",
+      "duedate": "2026/07/31",
+      "note": ""
+    },
+    {
+      "id": 2,
+      "project": "サイトリニューアル",
+      "category": "設計",
+      "task": "バックエンド",
+      "name": "鈴木 伽椰子",
+      "priority": "高",
+      "progress": "20%",
+      "startdate": "2026/07/10",
+      "duedate": "2026/08/14",
+      "note": ""
+    },
+    {
+      "id": 3,
+      "project": "サイトリニューアル",
+      "category": "設計",
+      "task": "フロントエンド",
+      "name": "佐藤 俊雄",
+      "priority": "高",
+      "progress": "20%",
+      "startdate": "2026/07/10",
+      "duedate": "2026/08/14",
+      "note": ""
+    },
+    {
+      "id": 4,
+      "project": "サイトリニューアル",
+      "category": "実装・テスト",
+      "task": "テスト計画",
+      "name": "山田 富江",
+      "priority": "中",
+      "progress": "0%",
+      "startdate": "2026/07/20",
+      "duedate": "2026/09/31",
+      "note": ""
+    },
+    {
+      "id": 5,
+      "project": "サイトリニューアル",
+      "category": "実装・テスト",
+      "task": "デザインシステム構築",
+      "name": "田中 剛雄",
+      "priority": "高",
+      "progress": "0%",
+      "startdate": "2026/07/20",
+      "duedate": "2026/08/14",
+      "note": ""
+    },
+    {
+      "id": 6,
+      "project": "サイトリニューアル",
+      "category": "設計",
+      "task": "運用計画",
+      "name": "渡辺 美咲",
+      "priority": "高",
+      "progress": "0%",
+      "startdate": "2026/07/10",
+      "duedate": "2026/08/14",
+      "note": ""
+    },
+    {
+      "id": 7,
+      "project": "サイトリニューアル",
+      "category": "実装・テスト",
+      "task": "ドキュメント",
+      "name": "高橋 大輔",
+      "priority": "中",
+      "progress": "0%",
+      "startdate": "2026/08/17",
+      "duedate": "2026/09/10",
+      "note": ""
+    },
+    {
+      "id": 8,
+      "project": "サイトリニューアル",
+      "category": "実装・テスト",
+      "task": "ドキュメント",
+      "name": "中村 貞子",
+      "priority": "中",
+      "progress": "0%",
+      "startdate": "2026/08/17",
+      "duedate": "2026/09/10",
+      "note": ""
+    }
+  ]
+}

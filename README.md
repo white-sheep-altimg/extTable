@@ -38,6 +38,17 @@ src2/
     └── data.json      # 列定義と社員データ
 ```
 
+### タスク表サンプル
+```
+src2/
+├── index.html         # メインHTML
+├── style.css          # スタイル定義
+├── script.js          # 全ロジック（vanilla JavaScript）
+├── README.md          # このファイル
+└── data/
+    └── task.json      # 列定義とタスクデータ
+```
+
 ## 使い方
 
 1. ローカルサーバーで `src/` ディレクトリを提供する
