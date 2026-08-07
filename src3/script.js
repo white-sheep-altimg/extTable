@@ -13,6 +13,10 @@
   // ── localStorageキー ──
   var STORAGE_KEY = 'task_data';
 
+  const GIT_REMOTE_URI = "http://localhost:3000";
+  const PROJECT_NAME = "foo";
+  const INITIAL_DATAFILE = "data.json";
+
   // ── データ保存（localStorage） ──
   function saveData() {
     try {
@@ -45,13 +49,13 @@
 	  return count;
   }
 
-    // ── 編集後のデータをJSONファイルとしてダウンロード ──
+  // ── 編集後のデータをJSONファイルとしてダウンロード ──
   function exportJSON() {
     // 既存のデータとコメントデータを統合してエクスポート
     var exportData = {
-        columns: columns,
-        rows: allRows,
-        comments: JSON.parse(CommentManager.getCommentsAsJSON()) // コメントデータも追加
+      columns: columns,
+      rows: allRows,
+      comments: JSON.parse(CommentManager.getCommentsAsJSON()) // コメントデータも追加
     };
     var data = JSON.stringify(exportData, null, 2);
     var blob = new Blob([data], { type: 'application/json' });
@@ -59,10 +63,10 @@
     var a = document.createElement('a');
     var now = new Date();
     var ts = now.getFullYear()
-      + String(now.getMonth() + 1).padStart(2, '0')
-      + String(now.getDate()).padStart(2, '0')
-      + '-' + String(now.getHours()).padStart(2, '0')
-      + String(now.getMinutes()).padStart(2, '0');
+        + String(now.getMonth() + 1).padStart(2, '0')
+        + String(now.getDate()).padStart(2, '0')
+        + '-' + String(now.getHours()).padStart(2, '0')
+        + String(now.getMinutes()).padStart(2, '0');
     a.href = url;
     a.download = 'data_' + ts + '.json';
     document.body.appendChild(a);
@@ -126,7 +130,7 @@
           columns = saved.columns;
           // 保存データにコメントが含まれていればロード
           if (saved.comments) {
-              CommentManager.loadCommentsFromJSON(JSON.stringify(saved.comments));
+            CommentManager.loadCommentsFromJSON(JSON.stringify(saved.comments));
           }
         } else {
           allRows = data.rows.slice();
@@ -507,6 +511,40 @@
 
       startEdit(td, filteredRows[idx], col);
     });
+
+    // セルダブルクリック → github
+    wrap.addEventListener('dblclick', function (e) {
+      // githubとは関係ないセルでも開こうとするけれど，構わないことにする
+      var td = e.target.closest('td.tbl-cell-editable');
+      if (!td) { return; }
+
+      var idx = parseInt(td.getAttribute('data-idx'), 10);
+      var colKey = td.getAttribute('data-col');
+      var col = null;
+      for (var i = 0; i < columns.length; i++) {
+        if (columns[i].key === colKey) { col = columns[i]; break; }
+      }
+      if (!col) { return; }
+      openGithub(td, filteredRows[idx], col);
+    });
+  }
+
+  // githubのページを開く（とりあえずissueのみ）
+  function openGithub(td, row, col) {
+    var category = col.key;
+    if (category === 'issues') {
+      var issue = row[category];
+      if (!issue) {
+        return;
+      }
+      else if (issue[0] == "#") {
+        issue = issue.substring(1);
+      }
+      if(issue != ""){
+        var uri = GIT_REMOTE_URI + "/" + PROJECT_NAME + "/issues/" + issue;
+        window.open(uri, '_blank');
+      }
+    }
   }
 
   // ── インライン編集開始 ──
@@ -646,6 +684,7 @@
     });
     filterBar.appendChild(importCommentsBtn);
   }
+
 
   // ── 初期化実行 ──
   if (document.readyState === 'loading') {

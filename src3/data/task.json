@@ -7,7 +7,7 @@
       "editable": false
     },
     {
-      "key": "project",
+      "key": "projects",
       "label": "プロジェクト",
       "width": "180px",
       "editable": true
@@ -58,6 +58,12 @@
       "type": "cal"
     },
     {
+      "key": "issues",
+      "label": "issue",
+      "width": "80px",
+      "editable": true
+    },
+    {
       "key": "note",
       "label": "備考",
       "width": "200px",
@@ -67,7 +73,7 @@
   "rows": [
     {
       "id": 1,
-      "project": "サイトリニューアル",
+      "projects": "サイトリニューアル",
       "category": "設計",
       "task": "UI刷新",
       "name": "佐伯 一郎",
@@ -79,7 +85,7 @@
     },
     {
       "id": 2,
-      "project": "サイトリニューアル",
+      "projects": "サイトリニューアル",
       "category": "設計",
       "task": "バックエンド",
       "name": "鈴木 伽椰子",
@@ -91,7 +97,7 @@
     },
     {
       "id": 3,
-      "project": "サイトリニューアル",
+      "projects": "サイトリニューアル",
       "category": "設計",
       "task": "フロントエンド",
       "name": "佐藤 俊雄",
@@ -103,7 +109,7 @@
     },
     {
       "id": 4,
-      "project": "サイトリニューアル",
+      "projects": "サイトリニューアル",
       "category": "実装・テスト",
       "task": "テスト計画",
       "name": "山田 富江",
@@ -115,7 +121,7 @@
     },
     {
       "id": 5,
-      "project": "サイトリニューアル",
+      "projects": "サイトリニューアル",
       "category": "実装・テスト",
       "task": "デザインシステム構築",
       "name": "田中 剛雄",
@@ -127,7 +133,7 @@
     },
     {
       "id": 6,
-      "project": "サイトリニューアル",
+      "projects": "サイトリニューアル",
       "category": "設計",
       "task": "運用計画",
       "name": "渡辺 美咲",
@@ -139,7 +145,7 @@
     },
     {
       "id": 7,
-      "project": "サイトリニューアル",
+      "projects": "サイトリニューアル",
       "category": "実装・テスト",
       "task": "ドキュメント",
       "name": "高橋 大輔",
@@ -151,7 +157,7 @@
     },
     {
       "id": 8,
-      "project": "サイトリニューアル",
+      "projects": "サイトリニューアル",
       "category": "実装・テスト",
       "task": "ドキュメント",
       "name": "中村 貞子",
