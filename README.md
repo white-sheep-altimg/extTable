@@ -43,7 +43,7 @@ src2/
 
 ### タスク表サンプル
 ```
-src2/
+src3/
 ├── index.html         # メインHTML
 ├── style.css          # スタイル定義
 ├── script.js          # 全ロジック（vanilla JavaScript）
@@ -55,7 +55,7 @@ src2/
 
 ### タスク表サンプル 2
 ```
-src2/
+src4/
 ├── index.html         # メインHTML
 ├── style.css          # スタイル定義
 ├── script.js          # 全ロジック（vanilla JavaScript）
